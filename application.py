@@ -2,19 +2,26 @@ import tornado.ioloop
 import tornado.web
 import requests
 import hashlib
+import time
 import json
 from post_result import post_result
 
-def deal_with_domains(filename):
-	#模拟对获取的域名进行简单处理
-	with open(filename,"r") as f:
+def deal_with_domains(query_id, url):
+	with open(query_id,"r") as f:
 		domains = f.readlines()
 
-	print ("i got here")
-
-	with open("result_"+filename,"w") as f:
+	with open("file_"+ query_id,"w") as f:
 		for d in domains:
 			f.write( d.strip() + " DNS record\n")
+
+	d = {
+			"time": time.time(),
+			"id": query_id,
+			"file_url":"http://ip:port/file_2019",
+			"file_md5":"xddddd"
+	}
+
+	a = requests.post(url, json=d)
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -36,7 +43,7 @@ class MainHandler(tornado.web.RequestHandler):
 				"code":code}
 		self.write(respond)
 
-		deal_with_domains(param['id'])
+		deal_with_domains(param['id'], 10.245.146.207)
 
 
         
