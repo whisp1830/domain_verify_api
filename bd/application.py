@@ -4,8 +4,12 @@ import requests
 import hashlib
 import time
 import json
+<<<<<<< HEAD:application.py
 import os
 from post_result import post_result
+=======
+
+>>>>>>> 8f07ace8a91ccebf6647b660bd67145021322287:bd/application.py
 
 def deal_with_domains(query_id, url):
 	query_id = str(query_id)
