@@ -12,7 +12,6 @@ import time
 import hashlib
 
 
-
 class test_server_method(object):
     def __init__(self):
         pass
@@ -32,7 +31,7 @@ class test_server_method(object):
 
         requests.post(url, json=d)
 
-    def post_sec(self):
+    def post_sec(self, url):
         with open("file_20190622160409", "r") as f:
             domains = f.readlines()
 

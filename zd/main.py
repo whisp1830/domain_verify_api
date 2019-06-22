@@ -33,7 +33,7 @@ class test_server_method(object):
         domains_hash = hashlib.md5(domains)
         d["file_md5"] = domains_hash
 
-        r = requests.post(url, d)
+        requests.post(url, d)
 
 
 class srchandler(tornado.web.RequestHandler):
