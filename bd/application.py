@@ -4,7 +4,7 @@ import requests
 import hashlib
 import time
 import json
-from post_result import post_result
+
 
 def deal_with_domains(query_id, url):
 	with open(query_id,"r") as f:
