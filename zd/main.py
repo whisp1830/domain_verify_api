@@ -27,7 +27,7 @@ class test_server_method(object):
             "file_md5": ""
         }
         domains = []
-        with open("test_domain.txt", "r") as f:
+        with open("file_20190622160409", "r") as f:
             domains = f.readlines()
 
         domains_hash = hashlib.md5(domains)
@@ -39,7 +39,7 @@ class test_server_method(object):
 class srchandler(tornado.web.RequestHandler):
     def get(self):
         domains = ""
-        with open("test_domain.txt", "r") as f:
+        with open("file_20190622160409", "r") as f:
             domains = f.readlines()
         for domain in domains:
             self.write(domain + "\n")
@@ -56,9 +56,10 @@ class postrsthandler(tornado.web.RequestHandler):
 
 if __name__ == '__main__':
     app = tornado.web.Application([
-        (r'/verify_dns/t.txt/', srchandler),
-        (r'/notify/path/result_list', postrsthandler)]
-    )
+        (r'/file/file_20190622160409', srchandler),
+        (r'/notify/sec/result_list', postrsthandler),
+        (r'/notify/query/result_list', postrsthandler),
+    ])
     app.listen(8888)
     tornado.ioloop.IOLoop.current().start()
     # url = "http://10.245.146.xxx:8888/notify/path/domain_list"
