@@ -21,7 +21,7 @@ class ResultFileHandler(tornado.web.RequestHandler):
 		self.set_header ('Content-Disposition', 'attachment; filename='+filename)
 		print filename
 		print filename
-		with open("./domain_verified/" + filename,"r") as f:
+		with open("./verified_domain/" + filename,"r") as f:
 			while True:
 				data = f.read(1024)
 				if not data:
@@ -43,7 +43,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 		h = hashlib.md5(need_to_verify.encode("utf-8")).hexdigest()
 
-		with open("./domain_unverified/" +  str(param['id']),"w") as f:
+		with open("./unverified_domain/" +  str(param['id']),"w") as f:
 			f.writelines(need_to_verify)
 
 		if h != param['file_md5']:
