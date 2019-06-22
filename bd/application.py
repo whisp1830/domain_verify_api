@@ -1,20 +1,36 @@
+#encoding:utf-8
+
 import tornado.ioloop
 import tornado.web
 import requests
 import hashlib
 import time
 import json
-<<<<<<< HEAD:application.py
 import os
-from post_result import post_result
-=======
 
->>>>>>> 8f07ace8a91ccebf6647b660bd67145021322287:bd/application.py
 
 def deal_with_domains(query_id, url):
 	query_id = str(query_id)
 
 	os.system("nohup python zd_verify.py %s &"%query_id)
+
+class ResultFileHandler(tornado.web.RequestHandler):
+	def get(self,filename):
+		print('i download file handler : ',filename)
+		self.set_header ('Content-Type', 'application/octet-stream')
+		self.set_header ('Content-Disposition', 'attachment; filename='+filename)
+		print filename
+		print filename
+		with open("./domain_verified/" + filename,"r") as f:
+			while True:
+				data = f.read(1024)
+				if not data:
+					break
+		self.write(data)
+		#记得要finish
+		self.finish()
+
+
 
 class MainHandler(tornado.web.RequestHandler):
     def post(self):
@@ -44,6 +60,7 @@ class MainHandler(tornado.web.RequestHandler):
 def make_app():
     return tornado.web.Application([
         (r"/notify/path/domain_list", MainHandler),
+        (r"/file/(\w+)", ResultFileHandler)
     ])
 
 if __name__ == "__main__":
