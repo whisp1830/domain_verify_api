@@ -26,7 +26,7 @@ class ResultFileHandler(tornado.web.RequestHandler):
 				data = f.read(1024)
 				if not data:
 					break
-		self.write(data)
+				self.write(data)
 		#记得要finish
 		self.finish()
 

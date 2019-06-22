@@ -39,4 +39,4 @@ if __name__ == '__main__':
 
 	print d
 	print d
-	r = requests.post("http://10.245.146.207", json=d)
+	r = requests.post("http://10.236.215.85/notify/query/result_list", json=d)
