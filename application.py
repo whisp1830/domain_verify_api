@@ -4,37 +4,26 @@ import requests
 import hashlib
 import time
 import json
+import os
 from post_result import post_result
 
 def deal_with_domains(query_id, url):
-	with open(query_id,"r") as f:
-		domains = f.readlines()
+	query_id = str(query_id)
 
-	with open("file_"+ query_id,"w") as f:
-		for d in domains:
-			f.write( d.strip() + " DNS record\n")
-
-	d = {
-			"time": time.time(),
-			"id": query_id,
-			"file_url":"http://ip:port/file_2019",
-			"file_md5":"xddddd"
-	}
-
-	a = requests.post(url, json=d)
-
+	os.system("nohup python zd_verify.py %s &"%query_id)
 
 class MainHandler(tornado.web.RequestHandler):
     def post(self):
 		code = 1
-		param = self.request.body.decode('utf-8')
-		param = json.loads(param)
-
+		remote_ip =  self.request.remote_ip
+                param = self.request.body.decode('utf-8')
+		print param
+                param = json.loads(param)
 		need_to_verify = requests.get(param['file_url']).text
 
 		h = hashlib.md5(need_to_verify.encode("utf-8")).hexdigest()
 
-		with open(param['id'],"w") as f:
+		with open("./domain_unverified/" +  str(param['id']),"w") as f:
 			f.writelines(need_to_verify)
 
 		if h != param['file_md5']:
@@ -43,10 +32,10 @@ class MainHandler(tornado.web.RequestHandler):
 				"code":code}
 		self.write(respond)
 
-		deal_with_domains(param['id'], 10.245.146.207)
+                deal_with_domains(param['id'], "10.236.215.85" + ":8888/notify/path/result_list")
 
 
-        
+
 
 def make_app():
     return tornado.web.Application([
